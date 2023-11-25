@@ -1,0 +1,50 @@
+{
+    "name": "pevt",
+    "version": "0.0.1",
+    "keywords": [
+        "event"
+    ],
+    "description": "Type safe global event library",
+    "author": {
+        "email": "pcrab@pcrab.xyz",
+        "name": "Pcrab",
+        "url": "https://github.com/Pcrab"
+    },
+    "license": "MIT",
+    "scripts": {
+        "clean": "rimraf \"**/node_modules\"",
+        "freshinstall": "pnpm clean && pnpm i",
+        "nuke": "rimraf pnpm-lock.yaml && pnpm freshinstall",
+        "format": "prettier",
+        "format:check": "pnpm format --check --debug-check",
+        "format:fix": "pnpm format --write",
+        "lint": "eslint --ext mjs,cjs,js,ts,tsx",
+        "lint:fix": "pnpm lint --fix",
+        "commitlint": "commitlint",
+        "syncpack:fix": "syncpack format && syncpack fix-mismatches",
+        "fix": "pnpm lint:fix . && pnpm format:fix . && pnpm syncpack:fix",
+        "prepare": "husky install"
+    },
+    "main": "index.js",
+    "devDependencies": {
+        "@changesets/cli": "^2.26.2",
+        "@commitlint/cli": "^18.4.3",
+        "@pcrab/configs-commitlint": "0.1.1",
+        "@pcrab/configs-eslint-ts": "0.1.2",
+        "@pcrab/configs-prettier": "0.1.0",
+        "@pcrab/configs-syncpack": "0.1.0",
+        "@pcrab/configs-ts": "^0.1.2",
+        "@types/node": "^20.10.0",
+        "eslint": "^8.54.0",
+        "husky": "^8.0.3",
+        "prettier": "^3.1.0",
+        "rimraf": "^5.0.5",
+        "syncpack": "^11.2.1",
+        "typescript": "^5.3.2"
+    },
+    "config": {
+        "commitizen": {
+            "path": "node_modules/cz-conventional-changelog"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "extends": "@pcrab/configs-ts",
+    "compilerOptions": {
+        "baseUrl": "src",
+        "rootDir": "src",
+        "lib": ["DOM"]
+    },
+    "include": ["src"]
+}
