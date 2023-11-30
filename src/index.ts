@@ -7,10 +7,16 @@ export interface PEvtOpts {
      * whether to wait all handlers to finish before continuing
      */
     type: ExecType;
-    /**
-     * whether to mount the event bus on window
-     */
-    mountOnWindow?: boolean;
+}
+
+export interface PEvt<T extends Record<string, unknown>> {
+    on: <K extends keyof T>(name: K, handler: PEvtHandler<T[K]>) => void;
+    emit: <K extends keyof T>(
+        name: K,
+        msg: T[K],
+        execType?: ExecType,
+    ) => undefined | Promise<PromiseSettledResult<void>[]>;
+    off: <K extends keyof T>(name: K, handler?: PEvtHandler<T[K]>) => void;
 }
 
 const createPEvt = <T extends Record<string, unknown>>(evtOpts?: PEvtOpts) => {
@@ -19,15 +25,11 @@ const createPEvt = <T extends Record<string, unknown>>(evtOpts?: PEvtOpts) => {
     };
     const allEvents: AllEvents = {};
 
-    const eventBus = {
-        on: <K extends keyof T>(name: K, handler: PEvtHandler<T[K]>) => {
-            (allEvents[name] ?? (allEvents[name] = [])).push(handler);
+    const eventBus: PEvt<T> = {
+        on: (name, handler) => {
+            (allEvents[name] = allEvents[name] ?? []).push(handler);
         },
-        emit: <K extends keyof T>(
-            name: K,
-            msg: T[K],
-            execType?: ExecType,
-        ): undefined | Promise<PromiseSettledResult<void>[]> => {
+        emit: (name, msg, execType?) => {
             const handlers = allEvents[name];
             if (handlers) {
                 const type: ExecType = execType ?? evtOpts?.type ?? "sync";
@@ -57,7 +59,7 @@ const createPEvt = <T extends Record<string, unknown>>(evtOpts?: PEvtOpts) => {
             }
             return;
         },
-        off: <K extends keyof T>(name: K, handler?: PEvtHandler<T[K]>) => {
+        off: (name, handler?) => {
             const handlers = allEvents[name];
             if (handlers && handler) {
                 const idx = handlers.indexOf(handler);
@@ -69,14 +71,6 @@ const createPEvt = <T extends Record<string, unknown>>(evtOpts?: PEvtOpts) => {
             }
         },
     };
-
-    interface Window {
-        __PEvt?: typeof eventBus;
-    }
-
-    if (evtOpts?.mountOnWindow) {
-        (window as Window).__PEvt = eventBus;
-    }
 
     return eventBus;
 };

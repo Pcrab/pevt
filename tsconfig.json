@@ -3,7 +3,7 @@
     "compilerOptions": {
         "baseUrl": "src",
         "rootDir": "src",
-        "lib": ["DOM"]
+        "lib": ["DOM", "esnext"]
     },
     "include": ["src"]
 }
