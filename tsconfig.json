@@ -1,6 +1,7 @@
 {
     "extends": "@pcrab/configs-ts",
     "compilerOptions": {
+        "incremental": false,
         "baseUrl": "src",
         "rootDir": "src",
         "lib": ["DOM", "esnext"]

@@ -12,6 +12,7 @@
     },
     "license": "MIT",
     "scripts": {
+        "build": "unbuild --sourcemap",
         "clean": "rimraf \"**/node_modules\"",
         "freshinstall": "pnpm clean && pnpm i",
         "nuke": "rimraf pnpm-lock.yaml && pnpm freshinstall",
@@ -25,14 +26,35 @@
         "fix": "pnpm lint:fix . && pnpm format:fix . && pnpm syncpack:fix",
         "prepare": "husky install"
     },
-    "main": "index.js",
+    "exports": {
+        ".": {
+            "import": {
+                "default": "./dist/index.mjs",
+                "types": "./dist/index.d.mts"
+            },
+            "require": {
+                "default": "./dist/index.cjs",
+                "types": "./dist/index.d.cts"
+            },
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.mjs"
+        },
+        "./*": "./*"
+    },
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "devDependencies": {
         "@changesets/cli": "^2.27.1",
         "@commitlint/cli": "^18.4.3",
         "@pcrab/configs-commitlint": "0.1.1",
         "@pcrab/configs-eslint-ts": "0.1.2",
         "@pcrab/configs-prettier": "0.1.0",
-        "@pcrab/configs-syncpack": "0.1.0",
+        "@pcrab/configs-syncpack": "0.1.1",
         "@pcrab/configs-ts": "^0.1.2",
         "@types/node": "^20.10.1",
         "eslint": "^8.54.0",
@@ -40,7 +62,8 @@
         "prettier": "^3.1.0",
         "rimraf": "^5.0.5",
         "syncpack": "^11.2.1",
-        "typescript": "^5.3.2"
+        "typescript": "^5.3.2",
+        "unbuild": "^2.0.0"
     },
     "config": {
         "commitizen": {
