@@ -13,6 +13,8 @@
     "license": "MIT",
     "scripts": {
         "build": "unbuild --sourcemap",
+        "test": "vitest",
+        "test:ci": "vitest run",
         "clean": "rimraf \"**/node_modules\"",
         "freshinstall": "pnpm clean && pnpm i",
         "nuke": "rimraf pnpm-lock.yaml && pnpm freshinstall",
@@ -63,7 +65,8 @@
         "rimraf": "^5.0.5",
         "syncpack": "^11.2.1",
         "typescript": "^5.3.2",
-        "unbuild": "^2.0.0"
+        "unbuild": "^2.0.0",
+        "vitest": "^0.34.6"
     },
     "config": {
         "commitizen": {

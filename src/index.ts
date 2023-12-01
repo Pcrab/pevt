@@ -52,7 +52,7 @@ const createPEvt = <T extends Record<string, unknown>>(evtOpts?: PEvtOpts) => {
                             handlers.forEach((handler) => {
                                 handler(msg);
                             });
-                        });
+                        }, 0);
                         return;
                     }
                 }
